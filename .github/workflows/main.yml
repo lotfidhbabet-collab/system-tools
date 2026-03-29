@@ -1,0 +1,23 @@
+name: Build EXE
+on: [push]
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.9'
+    - name: Install dependencies
+      run: |
+        pip install pycryptodome pywin32 requests pyinstaller
+    - name: Build with PyInstaller
+      run: |
+        pyinstaller --onefile --noconsole main.py
+    - name: Upload Artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: Jacobs_Log_Viewer
+        path: dist/main.exe
